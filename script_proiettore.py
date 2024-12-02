@@ -29,6 +29,7 @@ def accendi_o_spegni():
     if proiettore_acceso:
         mostra_conferma_spegnimento()
     else:
+        #projector.send_command("POWR", "1")
         projector.set_power('on')
         stato_label.config(text="Stato proiettore: ON", bootstyle="success")
         pulsante_on.config(state="disabled", bootstyle="success")  # Disabilita il pulsante ON
@@ -54,6 +55,7 @@ def mostra_conferma_spegnimento():
 
 # Spegne il proiettore e aggiorna la GUI
 def spegni(conferma_finestra):
+    #projector.send_command("POWR", "0")
     projector.set_power('off')
     conferma_finestra.destroy()
     stato_label.config(text="Stato proiettore: OFF", bootstyle="danger")
@@ -70,11 +72,13 @@ def toggle_audio_video():
     global audio_video_on
     if audio_video_on:
         # Spegnere audio e video
-        projector.send_command("AVMT", "31")
+        #projector.send_command("AVMT", "31")
+        projector.set_mute(video = True, audio = True)
         pulsante_audio_video.config(bootstyle="success", text="Audio/Video")
     else:
         # Accendere audio e video
-        projector.send_command("AVMT", "30")
+        #projector.send_command("AVMT", "30")
+        projector.set_mute(video = False, audio = False)
         pulsante_audio_video.config(bootstyle="light", text="Audio/Video")
 
     audio_video_on = not audio_video_on
